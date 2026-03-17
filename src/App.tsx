@@ -329,7 +329,7 @@ function ChapterView() {
         rehypePlugins={[rehypeRaw, rehypeHighlight]}
         components={markdownComponents}
       >
-        {chapter.content}
+        {chapter.content.replace(/\\newpage\n?/g, '')}
       </ReactMarkdown>
       <nav className="chapter-nav">
         {prev && <Link to={`/${prev.slug}`} className="nav-prev">← Ch. {prev.number}: {prev.title}</Link>}
