@@ -339,42 +339,163 @@ function ChapterView() {
   );
 }
 
-function Landing() {
+function Cover() {
   const partI = chapters.filter(c => c.part === 'I');
   const partII = chapters.filter(c => c.part === 'II');
 
   return (
-    <div className="landing">
-      <header className="landing-header">
-        <h1>Legal Engineering</h1>
-        <p className="landing-subtitle">Building AI-Powered Legal Workflows with Multi-Agent Architectures</p>
-        <p className="landing-edition">Second Edition</p>
-        <p className="landing-author">Rob Taylor, Esq.</p>
-        <p className="landing-meta">Taylor Legal Engineering, LLC | 2026 | ~880 pages | 18 chapters</p>
+    <div className="cover">
+      <header className="cover-header">
+        <h1 className="cover-title">Legal Engineering</h1>
+        <p className="cover-subtitle">Building AI-Powered Legal Workflows with Multi-Agent Architectures</p>
+        <div className="cover-divider" />
+        <p className="cover-author">Robert Taylor, Esq.</p>
+        <p className="cover-credentials">Founding Partner, Taylor Legal Engineering | PA & NY Bar | CIPP/E</p>
       </header>
 
-      <section className="toc">
-        <h2>Part I: Foundations</h2>
-        <div className="toc-grid">
-          {partI.map(ch => (
-            <Link key={ch.slug} to={`/${ch.slug}`} className="toc-card">
-              <span className="toc-number">{ch.number}</span>
-              <span className="toc-title">{ch.title}</span>
-            </Link>
-          ))}
-        </div>
+      <p className="cover-description">
+        This book teaches you how to design, build, and deploy production-grade legal
+        AI systems using multi-agent pipeline architectures. From the foundational
+        TIRO pattern through parallel swarm execution to full workflow
+        implementations across eleven legal domains, every chapter pairs theory with
+        working TypeScript code you can run yourself.
+      </p>
 
-        <h2>Part II: Applied Workflows</h2>
-        <div className="toc-grid">
-          {partII.map(ch => (
-            <Link key={ch.slug} to={`/${ch.slug}`} className="toc-card">
-              <span className="toc-number">{ch.number}</span>
-              <span className="toc-title">{ch.title}</span>
-            </Link>
-          ))}
-        </div>
+      <section className="cover-toc">
+        <h2 className="cover-toc-heading">Table of Contents</h2>
+
+        <Link to="/introduction" className="cover-toc-item cover-toc-special">
+          Introduction: What Legal Engineering Is and Why It Matters
+        </Link>
+
+        <h3 className="cover-toc-part">Part I: Foundations</h3>
+        {partI.map(ch => (
+          <Link key={ch.slug} to={`/${ch.slug}`} className="cover-toc-item">
+            <span>Chapter {String(ch.number).padStart(2, '0')}: {ch.title}</span>
+          </Link>
+        ))}
+
+        <h3 className="cover-toc-part">Part II: Applied Workflows</h3>
+        {partII.map(ch => (
+          <Link key={ch.slug} to={`/${ch.slug}`} className="cover-toc-item">
+            <span>Chapter {String(ch.number).padStart(2, '0')}: {ch.title}</span>
+          </Link>
+        ))}
+
+        <Link to="/conclusion" className="cover-toc-item cover-toc-special">
+          Conclusion: The Discipline That Did Not Exist Five Years Ago
+        </Link>
       </section>
     </div>
+  );
+}
+
+const introductionContent = `# Introduction: What Legal Engineering Is and Why It Matters
+
+## What Is Legal Engineering
+
+Legal Engineering is the practice of designing, building, and deploying AI-powered workflows that automate legal work using multi-agent pipeline architectures. It sits at the intersection of three domains: legal practice, software engineering, and AI systems design. Each domain contributes an essential element. Legal practice supplies the substantive knowledge of what correct legal work looks like: the doctrinal rules, the professional obligations, the regulatory constraints, and the practical judgment that separates competent analysis from malpractice. Software engineering supplies the discipline of building reliable, maintainable, production-grade systems: type safety, error handling, testing, deployment, and operational monitoring. AI systems design supplies the architecture patterns that make large language models useful at scale: prompt decomposition, multi-agent orchestration, parallel execution, and output synthesis.
+
+Legal Engineering is not prompt engineering. Prompt engineering is the craft of writing effective instructions for a single AI call. It is a necessary skill, but it operates at the wrong level of abstraction. A prompt engineer optimizes one message to one model. A legal engineer designs a system of twenty or thirty coordinated AI calls, each with a specialized role, orchestrated across multiple sequential rounds, producing a deliverable that meets the standard of care for legal work product. The difference is the difference between writing a good email and designing an organizational structure.
+
+Legal Engineering is not legal technology in the traditional sense. Legal technology typically refers to off-the-shelf SaaS products: contract lifecycle management platforms, e-discovery tools, document automation systems. These are products you purchase and configure. Legal Engineering is the discipline of building those products, or of building custom AI systems that exceed what any off-the-shelf product can do because they are tailored to specific workflows, specific document types, and specific quality standards. A legal technologist evaluates vendors. A legal engineer builds the system.
+
+The defining characteristic of Legal Engineering is the treatment of legal logic and computational logic as the same formal structure expressed in different syntax. A date in a contract and a Date object in TypeScript are the same thing. A conditional clause and an if-statement are the same thing. A list of obligations and an array of strings are the same thing. This is not an analogy. It is a structural isomorphism, and it is what makes the entire discipline possible. Legal documents are structured data written in natural language, and AI systems can parse that structure because the underlying logic is identical to the logic that software systems already process.
+
+## Who This Book Is For
+
+This book serves four audiences.
+
+**Attorneys** who want to understand and build the AI systems transforming their profession. Not attorneys who want to type questions into a chatbot, but attorneys who want to understand why certain AI systems produce partner-level work product and others produce unreliable summaries. Attorneys who recognize that the ability to design and evaluate AI legal workflows will be a core professional competency within five years, and who intend to develop that competency rather than delegate it to vendors they cannot evaluate. This book teaches the engineering side with enough precision that an attorney with basic programming literacy can build working systems. No prior AI experience is required.
+
+**Software engineers** entering the legal vertical. Engineers who can build distributed systems, design APIs, and deploy production applications, but who need to understand the legal domain they are building for. What does attorney-client privilege require of your data architecture? What is the standard of care, and how does it translate to quality thresholds in your scoring rubric? What regulatory constraints govern the storage and processing of legal documents? What does a redlined contract actually look like in OOXML, and why does formatting precision matter as much as analytical accuracy? This book teaches the legal side with enough depth that an engineer can build systems that meet professional standards, not just technical specifications.
+
+**Legal operations professionals** responsible for evaluating, procuring, or managing AI tools within law firms, corporate legal departments, or alternative legal service providers. These professionals need to distinguish genuine capability from marketing claims. When a vendor says "AI-powered contract review," this book equips you to ask the right questions. Is it a single-prompt system or a multi-agent pipeline? Does it produce real OOXML Track Changes or plain text suggestions? Does it cite legal authority or generate unsourced recommendations? How does it handle attorney-client privilege? The answers to these questions determine whether a product delivers defensible work product or expensive summaries.
+
+**Students** pursuing careers at the intersection of law and technology. Law students, computer science students, and graduate students in legal technology or computational law programs will find this book a practical complement to academic coursework. The book is structured as the core text for the TLE Academy certification program, with each chapter mapping to a course module that includes hands-on coding exercises and graded assessments.
+
+All four audiences benefit from the book's dual approach. Every concept is explained in both legal and code terms. A contract provision and its TypeScript equivalent appear side by side, because they are the same formal structure. An attorney reads the legal column and learns the code. An engineer reads the code column and learns the law. A student gains fluency in both simultaneously. All arrive at the same understanding.
+
+## How This Book Is Organized
+
+The book is divided into two parts across eighteen chapters.
+
+**Part I: Foundations** (Chapters 1 through 7) establishes the concepts, patterns, and infrastructure that every legal engineering workflow requires. Chapter 1 introduces TIRO, the universal decomposition pattern that structures every AI operation as Trigger, Input, Requirements (comprising Arbitration, Definitions, Validations, and Transformations), and Output. Chapter 2 covers the technology stack: TypeScript, the Claude API, OOXML document format, and the Express/React/MongoDB/SSE infrastructure layer. Chapter 3 walks through project setup and scaffolding. Chapter 4 presents the orchestration pattern taxonomy: sequential diplomats, parallel swarms, and hybrid architectures. Chapter 5 covers integration: OOXML Track Changes, SSE streaming, and API design. Chapter 6 addresses professional responsibility: attorney-client privilege, data isolation, and compliance. Chapter 7 teaches evaluation engineering: scoring rubrics, automated judges, and quality measurement.
+
+**Part II: Applied Workflows** (Chapters 8 through 18) implements eleven complete legal engineering pipelines, each building on the foundations from Part I. Contract drafting (Chapter 8), contract redlining (Chapter 9), contract analytics (Chapter 10), document triage (Chapter 11), M&A due diligence (Chapter 12), legal research (Chapter 13), regulated communications (Chapter 14), third-party risk assessment (Chapter 15), obligation tracking (Chapter 16), litigation support (Chapter 17), and IP analytics (Chapter 18). Each chapter follows the same structure: the legal context, the pipeline architecture, the implementation in production TypeScript, and the evaluation methodology.
+
+## The Architecture Thesis
+
+The core position of this book, supported by empirical research from TLE R&D, is that architecture matters as much as model selection. The same frontier model analyzing the same 42,274-word M&A contract produced 35 track changes with zero citations when used as a single prompt, versus 138 track changes with 18 legal citations when wrapped in a 26-agent, 6-round pipeline. A 3.9x improvement with zero change in model capability. The industry fixates on which model is "best." This book demonstrates that a well-architected pipeline around last year's model will outperform a single prompt to next year's model. Architecture is the multiplier.
+
+That is Legal Engineering. Let us begin.
+`;
+
+const conclusionContent = `# Conclusion: The Discipline That Did Not Exist Five Years Ago
+
+When this book opened, it made a claim: Legal Engineering is the practice of designing, building, and deploying AI-powered workflows that automate legal work using multi-agent pipeline architectures. Eighteen chapters later, that claim is no longer abstract. You have seen it built, piece by piece, from TypeScript interfaces to OOXML Track Changes surgery, from single-pass prompts to parallel specialist swarms, from theoretical decomposition patterns to production systems that draft contracts, redline agreements, triage documents, track obligations, conduct due diligence, screen for privilege, analyze intellectual property portfolios, and generate research memos.
+
+The thesis of this book is not that AI will change legal practice. That is obvious and uninteresting. The thesis is that *architecture* is what separates AI that produces partner-level work product from AI that produces expensive summaries. The same frontier model, given the same contract, produces thirty-five track changes with zero citations when used as a single prompt, and one hundred thirty-eight track changes with eighteen legal citations when wrapped in a multi-agent pipeline. The model did not get smarter. The architecture around it got better. That is Legal Engineering.
+
+## What You Now Know
+
+**Part I** gave you the foundations. You learned that legal logic and computational logic are the same formal structure expressed in different syntax. A date is a date. A boolean is a boolean. An optional field is "if applicable." This isomorphism is not a metaphor. It is the structural reality that makes the entire discipline possible. You learned TIRO, the universal decomposition pattern that structures every legal AI operation as Trigger, Input, Requirements, and Output. You learned that multi-pass pipelines with paired prompter-executor diplomats produce measurably better output than single-pass calls. You learned that parallelization via fan-out/fan-in patterns lets you deploy dozens of specialist agents simultaneously, and that a synthesizer is mandatory because parallel fragments without synthesis are worse than a single coherent pass. You learned that OOXML Track Changes surgery, not plain-text markup, is what makes AI-generated redlines indistinguishable from human attorney work product. You learned that attorney-client privilege imposes architectural constraints that no amount of clever prompting can satisfy: you need to own the infrastructure. And you learned how to evaluate your own pipelines with automated scoring rubrics and judge systems.
+
+**Part II** proved the pattern generalizes. Eleven distinct legal workflows, each with different inputs, different analytical requirements, different output formats, and different professional standards, all built on the same foundational architecture. Contract drafting uses a playbook-to-prose pipeline. Contract redlining uses adversarial analysis with OOXML surgery. Contract analytics uses schema-driven extraction with portfolio aggregation. Document triage uses specialist classification with urgency routing. M&A due diligence uses six-dimensional risk analysis with change-of-control mapping. Legal research uses parallel investigation with mandatory citation verification. Regulated communications uses multi-framework compliance overlays. Third-party risk assessment uses tiered evaluation with maturity modeling. Obligation tracking uses extraction pipelines with calendaring and alerting. Litigation support uses privilege screening with defensibility metrics. IP analytics uses portfolio-wide pattern detection with competitive landscape mapping.
+
+Eleven workflows. One architecture. That is not coincidence. That is a discipline.
+
+## What Has Not Changed
+
+Nothing in this book changes the fundamental nature of legal practice. Attorneys still owe duties of competence, diligence, and confidentiality. The standard of care still requires professional judgment. A hallucinated citation still constitutes malpractice if relied upon without verification. The attorney-client privilege still requires that communications be made in confidence for the purpose of obtaining legal advice.
+
+What has changed is the efficiency frontier. Work that took forty associate hours can now be completed in thirty minutes of pipeline execution plus two hours of attorney review and refinement. The attorney's role shifts from production to supervision, from drafting to evaluating, from researching to verifying. But the attorney's judgment remains the irreducible core. The pipeline produces the raw material. The attorney transforms it into counsel.
+
+This is not a limitation of the technology. It is a feature of the profession. Legal judgment, the ability to weigh competing considerations, assess risk tolerance, navigate ambiguity, and advise a client on what they *should* do rather than merely what they *can* do, is not a computation. It is a professional skill that requires experience, empathy, and ethical commitment.
+
+The legal engineer's job is to build systems that handle everything *except* judgment, so that the attorney's judgment can be applied to work product that is already thorough, well-researched, properly formatted, and internally consistent. That division of labor is what makes Legal Engineering valuable: not replacing attorneys, but making every attorney as productive as a team.
+
+## What Comes Next
+
+Legal Engineering as a discipline is less than two years old. The tools are new. The patterns are new. The professional category did not exist when most of today's practicing attorneys finished law school. But the underlying capabilities, large language models that can read and generate sophisticated legal text, API infrastructure that enables programmatic orchestration, and cloud platforms that provide the compute for parallel execution, are here now and improving rapidly.
+
+Three developments will shape the next phase of the discipline.
+
+### Models Will Improve, but Architecture Will Still Win
+
+Model capability will continue to improve, but the architectural advantage will persist. Better models will raise the quality floor of single-pass AI systems, but they will also raise the ceiling of multi-agent pipelines by the same margin. A well-architected pipeline around next year's model will outperform a single prompt to the model after that. The gap narrows in percentage terms but remains meaningful in absolute quality. Architecture is a permanent multiplier, not a temporary workaround.
+
+### Database Integration Will Close the Verification Gap
+
+Integration with legal databases will close the verification gap. The most significant limitation of current systems, the inability to verify citations against live legal databases in real time, is an integration problem, not an AI problem. When pipelines can query Westlaw or Lexis programmatically, citation verification becomes deterministic rather than probabilistic. Hallucinated citations will go from "the biggest barrier to adoption" to a solved problem. The pipeline architecture is already designed for this integration. The database APIs are the missing piece.
+
+### The Market Will Bifurcate
+
+Firms and legal departments that adopt engineered AI workflows will operate at fundamentally different cost structures and turnaround times than those that do not. A contract review that costs $15,000 and takes two weeks at a firm without AI will cost $2,000 and take two days at a firm with a properly engineered pipeline. That is not a marginal improvement. It is a structural advantage that compounds across every matter, every month, every year.
+
+## The Builder's Advantage
+
+This book taught you to build. Not to evaluate vendors, not to write prompts, not to configure off-the-shelf products, but to build production-grade AI systems from the ground up. That capability is rare. As of this writing, the number of people who can simultaneously practice law and build multi-agent AI pipelines is small enough that most of them know each other.
+
+That scarcity is your advantage, and it is temporary. Five years from now, law schools will teach Legal Engineering as a required course. Computer science programs will offer legal technology specializations. Certification programs will produce thousands of qualified practitioners. The early movers, the people who built while others watched, will have years of production experience, battle-tested architectures, and institutional knowledge that cannot be compressed into a semester.
+
+You have the foundations. You have the patterns. You have eighteen chapters of production-grade code and eleven complete workflow implementations. The question is not whether Legal Engineering will transform legal practice. It will. The question is whether you will be the one building the systems or the one buying them.
+
+Build.
+`;
+
+function MarkdownPage({ content, prevLink, nextLink }: { content: string; prevLink?: { to: string; label: string }; nextLink?: { to: string; label: string } }) {
+  useEffect(() => { window.scrollTo(0, 0); }, [content]);
+  return (
+    <article className="chapter">
+      <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw, rehypeHighlight]} components={markdownComponents}>
+        {content}
+      </ReactMarkdown>
+      <nav className="chapter-nav">
+        {prevLink && <Link to={prevLink.to} className="nav-prev">← {prevLink.label}</Link>}
+        {nextLink && <Link to={nextLink.to} className="nav-next">{nextLink.label} →</Link>}
+      </nav>
+    </article>
   );
 }
 
