@@ -8,25 +8,25 @@ A first-year law student reads Section 8.1 of a SaaS Master Services Agreement f
 
 Now hand that same clause to a software engineer. She reads it and sees something familiar, too: an event fires (the trigger), data enters (the inputs), business logic runs (the requirements), and a result is produced (the output). She does not see legal prose. She sees an architecture she has built a hundred times.
 
-The partner and the engineer are seeing the same thing because they are looking at the same thing. The indemnification clause and the TypeScript function that models it contain identical triggers, accept identical inputs, enforce identical constraints, perform identical transformations, and produce identical outputs. The only difference is notation. One notation was designed for courts and counterparties over centuries of common law tradition. The other was designed for compilers and runtimes over decades of computer science. Both notations describe the same logical machinery.
+The partner and the engineer are seeing something remarkably similar because both are looking at a structured process. The indemnification clause and the TypeScript function that models it share the same triggers, accept the same inputs, enforce parallel constraints, perform parallel transformations, and produce parallel outputs. The notation is different. One was designed for courts and counterparties over centuries of common law tradition. The other was designed for compilers and runtimes over decades of computer science. But the underlying process structure is strikingly consistent.
 
-This chapter introduces TIRO (Trigger, Input, Requirements, Output), the universal pattern that makes this identity visible. TIRO is not a framework we invented and imposed on legal operations. It is a formal description of the structure that legal operations already have and always have had. Every contract clause, every regulatory provision, every compliance workflow, and every AI pipeline stage follows this pattern whether or not anyone has named it. Our contribution is naming it, so that you can see it everywhere, and so that you can use it as the bridge between legal thinking and computational thinking that makes Legal Engineering possible.
+This chapter introduces TIRO (Trigger, Input, Requirements, Output), a universal pattern for decomposing any structured process into its constituent parts. TIRO is not a framework we invented and imposed on legal operations. It is a practical description of the structure that processes already exhibit, whether those processes live in a contract, a codebase, a compliance workflow, or an AI pipeline. Every contract clause, every regulatory provision, every compliance workflow, and every AI pipeline stage follows this pattern whether or not anyone has named it. Our contribution is naming it, so that you can see it everywhere, and so that you can use it as the bridge between legal thinking and computational thinking that makes Legal Engineering practical.
 
-By the end of this chapter, you will be able to take any contract clause, decompose it into its TIRO components, write the corresponding TypeScript that encodes the same information, and verify that nothing was lost or added in the process. You will also see how TIRO operates at the pipeline level, governing not just individual clauses but the architecture of entire multi-agent systems. And you will understand why this isomorphism is not an academic curiosity but the practical foundation on which every system in this book is built.
+By the end of this chapter, you will be able to take any contract clause, decompose it into its TIRO components, write corresponding TypeScript that captures the same process logic, and verify that the essential structure is preserved. You will also see how TIRO operates at the pipeline level, governing not just individual clauses but the architecture of entire multi-agent systems. And you will understand why this structural parallel between legal processes and code is not an academic curiosity but the practical foundation on which every system in this book is built.
 
 
 \newpage
 
-## The Core Thesis: Legal Logic IS Computational Logic
+## The Core Observation: Legal Processes and Code Share Deep Structural Parallels
 
 
-The claim at the center of this book is stronger than most readers expect. We are not saying that legal concepts can be *modeled* by code, or that code provides a *useful analogy* for legal operations, or that thinking computationally *helps* lawyers understand contracts. We are saying that legal logic and computational logic are the same formal structure expressed in different syntax. Not similar. Not analogous. Identical.
+The observation at the center of this book is more practical than philosophical. Legal processes and computational processes share remarkably consistent structural patterns. When you decompose a contract clause into its moving parts, the pieces you find (triggers, inputs, constraints, transformations, outputs) are the same kinds of pieces you find when you decompose a function, an API endpoint, or an AI pipeline stage. This parallel is not a coincidence. It reflects the fact that both domains are describing structured, rule-governed processes, and structured processes tend to decompose the same way regardless of the notation used to express them.
 
-Consider the simplest possible legal datum: a date. Section 3.1 of a software license agreement states that the term begins on "January 1, 2025." In TypeScript, this is `new Date('2025-01-01')`. These are not two different things that happen to correspond. They are the same thing. January 1, 2025 is a point on the timeline whether you write it in English prose or in ISO 8601 format. A date is a date. The syntax is different. The referent is identical.
+Consider the simplest possible legal datum: a date. Section 3.1 of a software license agreement states that the term begins on "January 1, 2025." In TypeScript, this is `new Date('2025-01-01')`. January 1, 2025 is a point on the timeline whether you write it in English prose or in ISO 8601 format. A date is a date. The syntax is different. The referent is the same.
 
-This identity holds for every primitive type that appears in legal documents. A dollar amount in a contract ("not to exceed One Million Dollars ($1,000,000)") and a number in code (`1_000_000`) are the same datum. A party name ("Acme Corporation") and a string (`'Acme Corporation'`) are the same datum. A condition being satisfied ("the representations shall be true and correct in all material respects") and a boolean being true (`true`) are the same datum. A schedule listing items ("Schedule A: the Licensed Patents") and an array of strings (`['US Patent No. 10,123,456', 'US Patent No. 10,789,012']`) are the same datum.
+This pattern holds across every primitive type that appears in legal documents. A dollar amount in a contract ("not to exceed One Million Dollars ($1,000,000)") maps naturally to a number in code (`1_000_000`). A party name ("Acme Corporation") maps to a string (`'Acme Corporation'`). A condition being satisfied ("the representations shall be true and correct in all material respects") maps to a boolean (`true`). A schedule listing items maps to an array. At the level of individual data elements, the correspondence is direct and practical.
 
-This is not a metaphor. It is not a pedagogical convenience. It is a structural isomorphism: a relationship between two formal systems where every element in one system maps to exactly one element in the other, every relationship between elements is preserved, and the mapping is reversible. You can go from legal language to code and back again without loss of information.
+This structural parallel is more than a pedagogical convenience. It is a consistent, reliable correspondence between two systems that both describe rule-governed processes. The correspondence is not always perfect; legal language carries nuance, context, and interpretive flexibility that code does not. But at the structural level, the parallels are strong enough to be engineering-grade: you can reliably decompose a legal operation into components, model those components in code, and build systems that process legal documents with high fidelity.
 
 
 ### The Primitive Mapping Table
@@ -51,17 +51,17 @@ The following table presents the complete set of primitive mappings between lega
 | "including but not limited to" | Non-exhaustive type definition | An open set is an open set |
 | "shall mean" / "as defined herein" | `type` / `interface` declaration | A definition is a definition |
 
-Every row in this table represents the same logical object written in two notations. When a contract says "thirty (30) days," it is communicating a quantity. When TypeScript says `30`, it is communicating the same quantity. There is no interpretation step between them. There is no translation layer. The concept is identical; only the syntax changes.
+Every row in this table represents a direct structural parallel. When a contract says "thirty (30) days," it is communicating a quantity. When TypeScript says `30`, it is communicating the same quantity. The concept maps cleanly; the syntax changes. Not every legal concept maps this cleanly (ambiguity, context-dependence, and interpretive norms add complexity that code must handle explicitly), but at the level of data primitives, the correspondence is remarkably consistent.
 
 
 > **Key Concept**
 >
-> The legal-computational isomorphism is not an analogy. It is a structural identity between two formal systems. Every primitive in a legal document (dates, numbers, strings, booleans, lists, conditions, caps, iterations) has an exact counterpart in TypeScript. The mapping is exhaustive, bidirectional, and information-preserving. You do not "translate" between legal language and code. You write the same thing in different syntax.
+> Legal processes and code processes share deep structural parallels at the level of data primitives. Every common primitive in a legal document (dates, numbers, strings, booleans, lists, conditions, caps, iterations) has a natural counterpart in TypeScript. This correspondence is consistent enough to be engineering-grade: you can reliably decompose legal operations into components and model them in code. The mapping is not always perfect (legal language carries nuance and interpretive flexibility), but at the structural level it is strong enough to build production systems on.
 
 
 ### Beyond Primitives: Structural Identity
 
-The isomorphism extends beyond individual primitives to the way those primitives combine into structures. A contract clause is not a random collection of dates, numbers, and conditions. It is an organized structure where primitives relate to each other in specific ways: this date triggers that obligation, this number caps that payment, this condition gates that delivery. These structural relationships are preserved exactly when the clause is expressed in code.
+The parallel extends beyond individual primitives to the way those primitives combine into structures. A contract clause is not a random collection of dates, numbers, and conditions. It is an organized structure where primitives relate to each other in specific ways: this date triggers that obligation, this number caps that payment, this condition gates that delivery. These structural relationships are preserved when the clause is modeled in code.
 
 Consider the structural parallel between a contract's definitions section and a TypeScript interface. Article I of a typical M&A agreement might read:
 
@@ -94,7 +94,7 @@ function isBusinessDay(date: Date): boolean {
 
 The legal definitions and the TypeScript definitions contain the same information. "Party" is defined by its name, role, and jurisdiction in both notations. "Affiliate" is defined by its relationship to a controlling person in both notations. "Business Day" is defined by exclusion of weekends and bank holidays in both notations. The structure is preserved. The relationships between terms are preserved. The only thing that changes is the syntax used to express them.
 
-This structural preservation is what makes TIRO possible. Because primitives map 1:1, and structures built from those primitives also map 1:1, and operations on those structures also map 1:1, we can decompose any legal operation into a universal pattern that works identically in both legal language and code. That pattern is TIRO.
+This structural preservation is what makes TIRO practical. Because primitives map consistently, and structures built from those primitives also map consistently, we can decompose any legal operation into a universal pattern that works in both legal analysis and code. That pattern is TIRO, and it applies to any structured process, not just legal ones.
 
 
 \newpage
@@ -102,7 +102,7 @@ This structural preservation is what makes TIRO possible. Because primitives map
 ## The TIRO Decomposition
 
 
-Every operation, in law, in code, in the physical world, follows the same four-phase pattern. Something initiates the operation. Data enters. Requirements govern how that data is processed. An output is produced. This is not a pedagogical simplification or a convenient way to think about legal operations. It is the minimal complete description of any deterministic process. TIRO names each phase and, critically, decomposes the Requirements phase into four sub-components that capture the full complexity of real-world processing.
+Every structured process, whether in law, in code, in business operations, or in the physical world, follows the same four-phase pattern. Something initiates the process. Data enters. Requirements govern how that data is processed. An output is produced. TIRO is the minimal complete description of any deterministic process. It names each phase and, critically, decomposes the Requirements phase into four sub-components that capture the full complexity of real-world processing. This universality is what makes TIRO valuable: it is not specific to law or to code, but it happens to be extraordinarily useful at the intersection of both.
 
 
 ### T — Trigger
@@ -200,7 +200,7 @@ Notice how the TypeScript definition captures every element of the legal definit
 
 Validations check constraints and enforce boundaries. They answer the question: is this input acceptable, and does this intermediate result fall within permitted limits? In law: "provided that the aggregate amount shall not exceed One Million Dollars" is a validation. "Notice shall be deemed effective only if delivered by certified mail" is a validation. "This Section shall apply only during the Term and for a period of twelve (12) months thereafter" is a temporal validation. In code: guard clauses that return early when a precondition fails, schema validation that rejects malformed input, boundary checks that clamp values to acceptable ranges, and authentication middleware that blocks unauthorized requests. In an AI pipeline: confidence thresholds that route low-certainty results to human review, token count checks that prevent context overflow, and format validations that ensure structured outputs match their schemas.
 
-Validations are the guardrails. They exist to prevent the operation from producing an output that violates a constraint. In legal terms, they enforce the boundaries that the parties negotiated. In code terms, they enforce the invariants that the system requires. The parallel is exact because the function is identical: check a condition, and if the condition is not met, either block the operation, adjust the output, or route to an exception handler.
+Validations are the guardrails. They exist to prevent the operation from producing an output that violates a constraint. In legal terms, they enforce the boundaries that the parties negotiated. In code terms, they enforce the invariants that the system requires. The parallel is strong because the function is the same: check a condition, and if the condition is not met, either block the operation, adjust the output, or route to an exception handler.
 
 ```typescript
 // validations-example.ts
@@ -296,7 +296,7 @@ The Output in TIRO is not necessarily the *final* output. In a multi-stage pipel
 
 > **Key Concept: TIRO Is Not a Metaphor**
 >
-> TIRO is not an analogy, a teaching tool, or a convenient way to think about legal operations. It is a formal description of the identical logical structure that both legal clauses and code functions implement. Every clause has a trigger, accepts inputs, processes those inputs through requirements (arbitration, definitions, validations, and transformations), and produces an output. Every function does the same. The structure is not similar; it is the same.
+> TIRO is a universal decomposition pattern for any structured process. Every contract clause has a trigger, accepts inputs, processes those inputs through requirements (arbitration, definitions, validations, and transformations), and produces an output. Every code function does the same. The structural parallels are deep and consistent enough that TIRO serves as a reliable bridge between legal analysis and software architecture.
 
 
 <svg viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;">
@@ -349,7 +349,7 @@ The Output in TIRO is not necessarily the *final* output. In a multi-stage pipel
   <text x="800" y="160" text-anchor="middle" fill="#16a085" font-size="14" font-weight="bold">O — Output</text>
   <text x="800" y="180" text-anchor="middle" fill="#cccccc" font-size="11">Result produced</text>
   <!-- Caption -->
-  <text x="450" y="310" text-anchor="middle" fill="#999999" font-size="11">Every legal clause and every code function follows this identical structure.</text>
+  <text x="450" y="310" text-anchor="middle" fill="#999999" font-size="11">Every legal clause and every code function follows this same structural pattern.</text>
 </svg>
 
 
@@ -1391,12 +1391,12 @@ Third, it demonstrates that the six steps are not arbitrary. They are not "Rob T
 ## Why This Changes Everything
 
 
-The TIRO isomorphism between legal logic and computational logic has five practical consequences that reshape how we think about building legal AI systems. These are not theoretical implications. They are engineering advantages that you will use in every chapter that follows.
+The structural parallels that TIRO reveals between legal processes and computational processes have five practical consequences that reshape how we think about building legal AI systems. These are not theoretical implications. They are engineering advantages that you will use in every chapter that follows.
 
 
 ### No Interpretation Needed
 
-"January 1, 2025" in a contract and `new Date('2025-01-01')` in TypeScript are not two representations that need to be "interpreted" or "mapped" by a human expert. They are the same datum in different notation. A date is a date. A dollar amount is a number. A party name is a string. A condition is a boolean. The isomorphism operates at the level of identity, not analogy.
+"January 1, 2025" in a contract and `new Date('2025-01-01')` in TypeScript represent the same datum in different notation. A date is a date. A dollar amount is a number. A party name is a string. A condition is a boolean. At the level of data primitives, the mapping is direct and requires no interpretive leap.
 
 This matters because it eliminates an entire class of errors from the pipeline design process. When building a system to process indemnification clauses, you do not need a "legal interpretation engine" that converts legal concepts into code concepts. The concepts are already the same. You need a parser that extracts data from one syntax (natural language) and writes it in another syntax (TypeScript). The model does not need to "understand" legal concepts in some abstract philosophical sense. It needs to recognize the same formal structures that every contract drafter puts into every clause, because those structures are identical to the formal structures that every TypeScript developer puts into every interface.
 
@@ -1435,7 +1435,7 @@ This does not mean that legal expertise becomes unnecessary or that engineering 
 
 ### A Sixth Implication: Legal Engineering Is Not Invention
 
-There is a subtler consequence that follows from the five above and deserves independent treatment. If legal logic and code logic are structurally identical, if no translation is needed, if no interpretation is needed, and if the mapping is bidirectional and complete, then Legal Engineering is not the *invention* of new systems. It is the *recognition* and *implementation* of structures that already exist in every legal document.
+There is a subtler consequence that follows from the five above and deserves independent treatment. If legal processes and code processes share deep structural parallels, and if those parallels are consistent enough to be engineering-grade, then Legal Engineering is less about *inventing* new systems than about *recognizing* and *implementing* the process structures that already exist in every legal document.
 
 This distinction matters because it changes the practitioner's relationship to the work. A legal engineer does not look at a contract and ask, "How can I build a system to handle this?" She looks at a contract and recognizes, "This clause is already a system. It has a trigger, inputs, requirements, and outputs. I am writing those same elements in a syntax that a computer can execute." The creative work is in the pipeline architecture (how many stages, which specialists, what evaluation criteria), not in the conceptual mapping between law and code. The mapping is given by the isomorphism. It was always there. TIRO names it so that you can use it.
 
@@ -1744,7 +1744,7 @@ To verify that the code captures the clause completely, walk through each phrase
 | "issuances approved by holders of a majority of the outstanding Series A Preferred Stock" | `input.majoritySeriesAApproval` boolean check | The majority approval exemption is present |
 
 
-Every phrase maps to code. No code exists that does not map to a phrase. The verification is complete. The isomorphism holds.
+Every phrase maps to code. No code exists that does not map to a phrase. The verification is complete. The structural parallel holds.
 
 
 Now reverse the verification: take the TypeScript interface and produce the clause. The `AntiDilutionInput` interface has seven fields. Each one corresponds to a data point that the clause requires: the current conversion price, the outstanding share count, the new shares issued, the aggregate consideration, the per-share price, the issuance type, and the majority approval status. If you gave these seven fields to a transactional attorney and asked her to draft the clause, she would produce language substantively identical to Section 6.4. The mapping is bidirectional. The isomorphism holds in both directions.
@@ -1788,7 +1788,7 @@ Both TIRO and the six steps describe the same analysis. TIRO tells you what the 
 ## Putting It Together: TIRO as Your Design Methodology
 
 
-Throughout this chapter, we have examined TIRO from four perspectives: as a theoretical isomorphism between legal and computational logic, as a decomposition tool for individual contract clauses, as a design pattern for AI pipeline stages, and as the structural foundation beneath the six-step execution pattern. Before moving to Chapter 2, let us consolidate these perspectives into a practical methodology you can apply immediately.
+Throughout this chapter, we have examined TIRO from four perspectives: as a universal process decomposition pattern that reveals deep parallels between legal and computational processes, as a decomposition tool for individual contract clauses, as a design pattern for AI pipeline stages, and as the structural foundation beneath the six-step execution pattern. Before moving to Chapter 2, let us consolidate these perspectives into a practical methodology you can apply immediately.
 
 
 ### The Five-Minute TIRO Decomposition
@@ -1912,7 +1912,7 @@ Every chapter in this book applies TIRO, even when it is not explicitly named. C
 
 Part II's applied workflow chapters each begin with a TIRO decomposition of the target workflow. Chapter 8 (Contract Drafting) decomposes playbook-driven drafting into TIRO. Chapter 9 (Contract Redlining) decomposes adversarial analysis into TIRO. Chapter 10 (Contract Analytics) decomposes term extraction and risk scoring into TIRO. In each case, the TIRO decomposition precedes and determines the pipeline architecture. The pattern drives the system design, not the other way around.
 
-The reason TIRO appears in every chapter is not pedagogical repetition. It is structural necessity. If legal logic and computational logic are the same formal structure, then every system that processes legal logic must exhibit that structure. TIRO does not describe one approach to legal engineering. It describes the only approach, because it describes the structure that already exists in the legal documents the systems process.
+The reason TIRO appears in every chapter is not pedagogical repetition. It is practical necessity. Because legal processes and computational processes share deep structural parallels, every system that processes legal documents benefits from decomposing those documents into TIRO components. TIRO does not describe the only approach to legal engineering, but it describes the most reliable one, because it follows the process structure that already exists in the legal documents the systems process.
 
 
 \newpage
@@ -1924,11 +1924,11 @@ The reason TIRO appears in every chapter is not pedagogical repetition. It is st
 
 - TIRO stands for Trigger, Input, Requirements, Output: the four phases that every legal operation and every code function share. The full notation, TIR{ADVT}O, decomposes Requirements into Arbitration, Definitions, Validations, and Transformations. The curly braces indicate that ADVT are sub-components of R, not peer-level components.
 
-- TIRO is not a metaphor. It is a formal description of the identical logical structure present in both legal clauses and code functions. The structure is not similar; it is the same.
+- TIRO is a universal decomposition pattern for structured processes. It reveals deep structural parallels between legal clauses and code functions that are consistent enough to build production systems on.
 
-- The primitive mapping table demonstrates that every legal datum (dates, numbers, strings, booleans, lists, conditions, caps, iterations) has an exact TypeScript counterpart. The mapping is bidirectional and complete. No information is lost because the concepts are identical.
+- The primitive mapping table demonstrates that every common legal datum (dates, numbers, strings, booleans, lists, conditions, caps, iterations) has a natural TypeScript counterpart. The mapping is practical, consistent, and reliable at the structural level, even where legal nuance and interpretive context add complexity that code must handle explicitly.
 
-- The isomorphism is recursive. Primitives map to primitives. Composites of primitives map to interfaces. Composites of composites map to nested interfaces. At every level of composition, from a single date to a complete merger agreement, the legal structure and the code structure are the same thing in different notation.
+- The parallel is recursive. Primitives map to primitives. Composites of primitives map to interfaces. Composites of composites map to nested interfaces. At every level of composition, from a single date to a complete merger agreement, the legal structure and the code structure share the same organizational pattern.
 
 - Every phrase in a well-drafted contract clause maps to exactly one TIRO component, and every TIRO component maps back to exactly one phrase. The seven clause decompositions in this chapter prove the mapping holds across termination fees, MAC definitions, indemnification triggers, notice provisions, closing conditions, non-compete restrictions, and SLA credit calculations. The anti-dilution worked example demonstrates that even the most complex clauses in corporate law decompose completely.
 
@@ -1944,7 +1944,7 @@ The reason TIRO appears in every chapter is not pedagogical repetition. It is st
 
 - When stuck designing a pipeline stage, ask four questions: What triggers it? What inputs does it need? What requirements govern processing? What output does it produce? The answers are your function signature, your implementation skeleton, and your test cases.
 
-- The TIRO isomorphism has five practical consequences: no interpretation needed (a date is a date in any language), no translation layer required (we are changing syntax not meaning), no ambiguity at the structural level (TIRO makes hidden ambiguity explicit), perfect bidirectional mapping (clause to code and code to clause without loss), and the dissolution of the barrier between legal and technical professionals (both disciplines already understand the same structures).
+- The TIRO structural parallel has five practical consequences: minimal interpretation needed at the primitive level (a date is a date in any notation), no heavy translation layer required for process structure, TIRO makes hidden ambiguity explicit (forcing clarity that benefits both legal analysis and code), reliable bidirectional mapping between clause structure and code structure, and a shared vocabulary that dissolves barriers between legal and technical professionals.
 
 - Legal Engineering is not the invention of new systems. It is the recognition and implementation of formal structures that already exist in every legal document. TIRO names those structures so that you can build on them.
 
