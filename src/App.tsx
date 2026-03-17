@@ -53,9 +53,10 @@ function slugify(text: string): string {
 
 function extractHeadings(content: string): HeadingInfo[] {
   const headings: HeadingInfo[] = [];
+  const stripped = content.replace(/```[\s\S]*?```/g, '');
   const regex = /^(#{2,3})\s+(.+)$/gm;
   let match;
-  while ((match = regex.exec(content)) !== null) {
+  while ((match = regex.exec(stripped)) !== null) {
     const raw = match[2];
     const text = raw.replace(/\*\*/g, '').replace(/`/g, '').replace(/_/g, '').trim();
     headings.push({ text, id: slugify(text), level: match[1].length });
