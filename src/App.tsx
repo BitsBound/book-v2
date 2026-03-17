@@ -279,10 +279,13 @@ function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
           </div>
         ) : (
           <>
+            <Link to="/" className={`sidebar-link sidebar-special ${currentSlug === '' ? 'active' : ''}`} onClick={onClose}>Cover</Link>
+            <Link to="/introduction" className={`sidebar-link sidebar-special ${currentSlug === 'introduction' ? 'active' : ''}`} onClick={onClose}>Introduction</Link>
             <div className="sidebar-part">Part I: Foundations</div>
             {partI.map(renderChapter)}
             <div className="sidebar-part">Part II: Applied Workflows</div>
             {partII.map(renderChapter)}
+            <Link to="/conclusion" className={`sidebar-link sidebar-special ${currentSlug === 'conclusion' ? 'active' : ''}`} onClick={onClose}>Conclusion</Link>
           </>
         )}
       </nav>
@@ -510,7 +513,9 @@ export default function App() {
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       <main className="content">
         <Routes>
-          <Route path="/" element={<Landing />} />
+          <Route path="/" element={<Cover />} />
+          <Route path="/introduction" element={<MarkdownPage content={introductionContent} nextLink={{ to: '/tiro-pattern', label: 'Ch. 1: The TIRO Pattern' }} />} />
+          <Route path="/conclusion" element={<MarkdownPage content={conclusionContent} prevLink={{ to: '/ip-analytics', label: 'Ch. 18: IP Analytics' }} />} />
           <Route path="/:slug" element={<ChapterView />} />
         </Routes>
       </main>
