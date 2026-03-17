@@ -152,6 +152,14 @@ body {
   transition: color 0.15s; text-decoration: none;
 }
 .sidebar-section-link:hover { color: var(--teal); }
+.sidebar-section-link.sidebar-h2 {
+  color: #bdc3c7; font-weight: 600; font-size: 0.7rem;
+  padding: 0.3rem 0.6rem; margin-top: 0.15rem;
+}
+.sidebar-section-link.sidebar-subsection {
+  padding-left: 1.2rem; font-size: 0.65rem; color: #6e7a8a;
+}
+.sidebar-section-link.sidebar-subsection:hover { color: var(--teal); }
 
 .sidebar-nav { flex: 1; padding: 0.5rem 0; overflow-y: auto; }
 

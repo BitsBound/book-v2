@@ -189,7 +189,7 @@ function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
   const renderChapter = (ch: ChapterInfo) => {
     const isActive = currentSlug === ch.slug;
     const isExpanded = expandedChapters.has(ch.slug);
-    const h2s = ch.headings.filter(h => h.level === 2);
+    const allHeadings = ch.headings.filter(h => h.level === 2 || h.level === 3);
 
     return (
       <div key={ch.slug} className="sidebar-chapter-group">
@@ -202,7 +202,7 @@ function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
             <span className="ch-num">{ch.number}</span>
             <span className="ch-title">{ch.title}</span>
           </Link>
-          {h2s.length > 0 && (
+          {allHeadings.length > 0 && (
             <button
               className={`sidebar-expand ${isExpanded ? 'expanded' : ''}`}
               onClick={(e) => toggleChapter(ch.slug, e)}
@@ -212,12 +212,12 @@ function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) 
             </button>
           )}
         </div>
-        {isExpanded && h2s.length > 0 && (
+        {isExpanded && allHeadings.length > 0 && (
           <div className="sidebar-sections">
-            {h2s.map((h, i) => (
+            {allHeadings.map((h, i) => (
               <button
                 key={i}
-                className={`sidebar-section-link`}
+                className={`sidebar-section-link ${h.level === 3 ? 'sidebar-subsection' : 'sidebar-h2'}`}
                 onClick={() => scrollToHeading(ch.slug, h.id)}
               >
                 {h.text}
